@@ -1,25 +1,23 @@
 function progresssBar {
     Param (
         [string]$Activity = "Progress",
-        [int]$Progress = 65,
-        [int]$Possision = 0,
+        [int]$Progress = 0,
+        [int]$Possision = ([Console]::CursorTop),
         [int]$Total = 100
-
     )
 
     $Width = [Console]::WindowWidth
     [int]$HalfWidth = ($width / 2) -1
     $Progresslength = $HalfWidth
-    $Currentpossision = $Possision
 
-    [Console]::SetCursorPosition(0, $Currentpossision)
+    [Console]::SetCursorPosition(0, $Possision)
     Write-Host $Activity "/"$Total "                           "
 
-    [Console]::SetCursorPosition(($HalfWidth), $Currentpossision)
+    [Console]::SetCursorPosition(($HalfWidth), $Possision)
     write-host "[" -NoNewLine -ForegroundColor Red
     $i = 1
     3..$HalfWidth| % {
-        [Console]::SetCursorPosition(($i+$HalfWidth), $Currentpossision)
+        [Console]::SetCursorPosition(($i+$HalfWidth), $Possision)
         if ($i -le ($progress * ($Progresslength/$Total))){
             write-host "#" -NoNewLine -ForegroundColor Green  
         }else{
@@ -27,21 +25,14 @@ function progresssBar {
         }
     $i++  
     } 
-    [Console]::SetCursorPosition(($Width-4), $Currentpossision)
+    [Console]::SetCursorPosition(($Width-4), $Possision)
    write-host "]" -NoNewLine  -ForegroundColor Red
 }
 
-
 #Main Program
-Clear-Host
-$Main = 0
-1..5|%{#First loop
-    progresssBar -Activity "Main Activity $Main" -Progress $Main -Possision 1 -Total 5
-    $Sub= 1
-    1..50|%{#Second loop
-        progresssBar -Activity "Sub Activity $Sub" -Progress $Sub -Possision 2 -Total 50
-    $Sub++
-    }#Second loop
+$Main = 1
+1..50|%{
+    progresssBar -Activity "Activity $Main" -Progress $Main  -Total 50 
 $Main++
-}#First loop
-progresssBar -Activity "Main Activity $Main" -Progress $Main -Possision 1 -Total 5
+}
+exit;
