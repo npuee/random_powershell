@@ -1,8 +1,8 @@
-function progresssBar {
+function ProgresssBar {
     Param (
         [string]$Activity = "Progress",
         [int]$Progress = 0,
-        [int]$Possision = ([Console]::CursorTop),
+        [int]$Possision = [Console]::CursorTop,
         [int]$Total = 100
     )
 
@@ -30,9 +30,10 @@ function progresssBar {
 }
 
 #Main Program
-$Main = 1
+write-Host "Test of ProgressBar"
+$loop = 1
 1..50|%{
-    progresssBar -Activity "Activity $Main" -Progress $Main  -Total 50 
-$Main++
+    ProgresssBar -Activity "Activity $loop" -Progress $loop  -Total 50 
+$loop++
 }
-exit;
+exit
